@@ -8,14 +8,23 @@
 	<link rel="stylesheet" href="">
 </head>
 <body>
-	<button type="" id="btn">ajax</button>
+	<button type="" id="btn">get</button>
+	<button type="" id="post">post</button>
+	<div id="name"></div>
 
 	<script type="text/javascript">
 		$(function(){
 			$('#btn').on('click', function(event) {
 				event.preventDefault();
 				$.get('http://192.168.111.207:1234/index', {}, function(data, textStatus, xhr) {
-					console.log(data);
+					console.log(JSON.parse(data));
+				});
+			});
+			$('#post').on('click', function(event) {
+				event.preventDefault();
+				$.post('http://192.168.111.207:1234/post', {test: 123}, function(data, textStatus, xhr) {
+					let datas = JSON.parse(data).data;
+					$('#name').text(datas.name);
 				});
 			});
 		})

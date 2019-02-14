@@ -19,8 +19,20 @@ app.use(async(ctx, next) => {
 });
 
 router.get('/index', async(ctx, next) => {
-	ctx.response.body = JSON.stringify({data: 232423});
+	ctx.response.body = JSON.stringify({data: 'get返回数据'});
 });
+
+router.post('/post', async(ctx, next) => {
+	let request = ctx.request.body;
+	let test = request.test;
+	let data;
+	if (test === '123') {
+		data = {data: {name: '刘飞', age: '18', sex: '男', like: 'girl'}};
+	} else {
+		data = {data: {name: '小灰灰', age: '18', sex: '男', like: 'girl'}};
+	}
+	ctx.response.body = JSON.stringify(data);
+})
 
 app.listen('1234', () => {
 	console.log('koa started at port 1234');
