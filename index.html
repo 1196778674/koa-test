@@ -16,18 +16,36 @@
 		$(function(){
 			$('#btn').on('click', function(event) {
 				event.preventDefault();
-				$.get('http://192.168.111.207:1234/index', {}, function(data, textStatus, xhr) {
-					console.log(JSON.parse(data));
+				ajax('/index', {}, 'get', function (res) {
+					console.log(res);
 				});
 			});
 			$('#post').on('click', function(event) {
 				event.preventDefault();
-				$.post('http://192.168.111.207:1234/post', {test: 123}, function(data, textStatus, xhr) {
-					let datas = JSON.parse(data).data;
+				ajax('/post', {test: 123}, 'post', function (res) {
+					let datas = res.data;
 					$('#name').text(datas.name);
 				});
 			});
 		})
+
+		function ajax (url, parmas, type, callback, error={}) {
+			let domain = 'http://192.168.111.207:1234';
+			$.ajax({
+				url: domain + url,
+				type: type.toUpperCase(),
+				dataType: 'json',
+				data: parmas,
+			})
+			.done(function(res) {
+				callback(res)
+			})
+			.fail(function(res) {
+				error(res)
+			})
+			
+		}
+
 	</script>
 </body>
 </html>
